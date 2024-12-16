@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Posts website</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+        }
+        .welcome-container {
+            text-align: center;
+            background-color: #5a9;
+            color: white;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: fit-content;
+        }
+        .posts-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            padding: 20px;
+        }
+        .post {
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            width: 200px;
+            text-align: center;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+        .post:hover {
+            transform: scale(1.05);
+        }
+        .post img {
+            width: 100%;
+            height: auto;
+        }
+        .post p {
+            margin: 10px;
+            font-size: 14px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="my-4">Recent Posts</h1>
+
+        <div id="posts-container" class="row">
+           
+        </div>
+    </div>
+
+    <script>
+        const postsContainer = document.getElementById('posts-container');
+        const postsData = JSON.parse(localStorage.getItem('postsData')) || [];
+        const comments = JSON.parse(localStorage.getItem('comments')) || [];
+        
+        if (postsData.length === 0) {
+            postsContainer.innerHTML = '<p>No posts available.</p>';
+        } else {
+            postsData.forEach(post => {
+                const postElement = document.createElement('div');
+                postElement.classList.add('col-md-4', 'mb-4', 'post');
+                
+                const postComments = comments.filter(c => c.postId == post.id);
+                
+                postElement.innerHTML = `
+                
+                    <div class="card">
+                        <img src="${post.img}" class="card-img-top" alt="Post Image">
+                        <div class="card-body">
+                            <p class="card-text">${post.details}</p>
+                            <a href="post-details.html?id=${post.id}" class="btn btn-primary">View Details</a>
+                            <p><strong>Comments:</strong> ${postComments.length}</p>
+                            
+                        </div>
+                    </div>
+                `;
+                
+                postsContainer.appendChild(postElement);
+            });
+        }
+    </script>
+    </script>
+</body>
+</html>
+
+
